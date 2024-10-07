@@ -75,8 +75,7 @@ remove_outliers()
 sim_data <- sim_data %>% mutate(breastfeed_dur_factor=factor(case_when(
   breastfeed_dur == 0 | breastfeed_dur == 1 ~ 0,
   breastfeed_dur >= 2 & breastfeed_dur <= 6 ~ 1,
-  breastfeed_dur > 6 ~ 2), 
-  ordered=TRUE))
+  breastfeed_dur > 6 ~ 2)))
 
 
 
