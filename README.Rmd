@@ -1,0 +1,58 @@
+---
+title: "README"
+output: github_document
+date: "2024-10-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# MoBa reproducibility project
+
+The MoBa reproducibility project assesses current open science practices in the Norwegian Mother, Father, Child cohort ([MoBa](https://www.fhi.no/op/studier/moba/>)) and provides guidelines on being as transparent science practices given the limitations of epidemiological research.
+
+This MoBaRepro repository is a supplement to the working example provided in the paper. 
+
+
+## What are the independent effects of age and breastfeeding on height?
+
+In this hypothetical research project, researchers are interested in testing the independent effects of age and breastfeeding duration on height during childhood in MoBa. Additionally, they also intend to test for variation in these effects according to child sex. 
+
+## Hypotheses
+
+H1: Higher age predicts taller height across childhood.
+H2: Longer breastfeeding duration will be associated with taller height across childhood.
+H3: The effect of age on height across childhood differs between males and females.
+H4: The effect of breastfeeding duration on height across childhood differs between males and females.
+
+## Data
+
+The data included in this repository is completely simulated, and bears no resemblance to actual MoBa data other than in structure.
+
+
+## Scripts
+
+All scripts can be found under the `scripts` subdirectory. 
+
+### data_sim.R
+
+`data_sim.R` generates the simulated "original" MoBa dataset with variables for height at 6 months, 18 months, 3 years, 5 years, 7 years, and 8 years, as well as for breastfeeding duration, sex, and birth length. This dataset is subsequently saved in the `data` subdirectory as `simdata.RData`. 
+
+
+### 01_dataprep.R
+
+The `01_dataprep.R` script loads the simulated dataset, checks the descriptive statistics and distributions, cleans and recodes the data, and converts the data to long form before the analysis. The processed dataset is saved as `data/longdata.RData`.
+
+### 02_mixedmodels.R
+
+The `02_mixedmodels.R` script loads the `longdata.RData` dataset generated in script 01, which is used to create a single multilevel model to test all hypotheses.
+
+
+### 03_synthesis.R
+
+Because MoBa data contains potentially identifiable information, it is not possible to share the actual data alongside analysis scripts. One way of handling this issue is to create a synthetic dataset based on the original dataset. The `03_synthesis.R` script provides an example of how to generate such a synthetic dataset and how to assess its preservation of the relationships found in the original dataset. It loads the `longdata.RData` dataset and creates a synthetic dataset, `data/syndata.RData`.
+
+### 04_validate.R
+
+The `04_validate.R` script performs the same analysis as in script 02, but on the synthetic dataset.
