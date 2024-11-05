@@ -56,7 +56,11 @@ dataset is saved as `data/longdata.RData`.
 
 The `02_mixedmodels.R` script loads the `longdata.RData` dataset
 generated in script 01, which is used to create a single multilevel
-model to test all hypotheses.
+model to test all hypotheses. It also performs two sensitivity analyses:
+one using a different method of categorising the `breastfeed_dur`
+variable, and one using the height variable where values were deemed
+outliers if they were more than 2 SD away from the mean, and were thus
+removed. Finally, this script collates the results from all models.
 
 ### 03_synthesis.R
 
@@ -71,5 +75,5 @@ of the relationships found in the original dataset. It loads the
 
 ### 04_validate.R
 
-The `04_validate.R` script performs the same analysis as in script 02,
+The `04_validate.R` script performs the same analyses as in script 02,
 but on the synthetic dataset.
