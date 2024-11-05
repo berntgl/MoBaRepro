@@ -4,26 +4,44 @@ library(lme4)
 library(tidyverse)
 library(lmerTest)
 library(multcomp)
+library(broom)
 
 load("./data/longdata.RData")
 
+#   Main analysis
 #   Defining model
 mod <- lmerTest::lmer(height ~ age + breastfeed_dur_factor + sex_num + birth_length + age*sex_num + breastfeed_dur_factor*sex_num+ (1 | id) + (1 | fam_id), data = long_data)
 summary(mod)
 
-#   Add the Bonferroni correction to the factored variable (breastfeeding duration)
-p_values <- summary(mod)$coefficients[, "Pr(>|t|)"]
-breastfeeding_p_values <- p_values[grep("breastfeed_dur_factor", names(p_values))]
 
-#   Adjusted p-values resulting from Bonferroni correction
-adjusted_p_values <- p.adjust(breastfeeding_p_values, method = "bonferroni")
+#   Sensitivity 1: different binning of the breastfeeding variable
 
-#   Compare unadjusted and adjusted p-values
-results <- data.frame(
-  Comparison = names(breastfeeding_p_values),
-  Original_P = breastfeeding_p_values,
-  Bonferroni_Adjusted_P = adjusted_p_values
-)
+#   Defining model
+mod_s1 <- lmerTest::lmer(height ~ age + breastfeed_dur_factor_s1 + sex_num + birth_length + age*sex_num + breastfeed_dur_factor_s1*sex_num+ (1 | id) + (1 | fam_id), data = long_data)
+summary(mod_s1)
 
-print(results)
 
+#   Sensitivity 2: Different threshold criteria for outliers in outcome variable
+
+#   Defining model
+mod_s2 <- lmerTest::lmer(height_s2 ~ age + breastfeed_dur_factor + sex_num + birth_length + age*sex_num + breastfeed_dur_factor*sex_num+ (1 | id) + (1 | fam_id), data = long_data)
+summary(mod_s2)
+
+
+#   Collating results
+
+#   Load helper function
+source("./scripts/helper_function.R")
+
+# Extract summaries from each model
+results_main <- extract_summary(mod, "Main")
+results_s1 <- extract_summary(mod_s1, "Sensitivity 1")
+results_s2 <- extract_summary(mod_s2, "Sensitivity 2")
+
+# Combine results into a single table
+combined_results <- bind_rows(results_main, results_s1, results_s2) %>%
+  select(analysis, term, Estimate = "Estimate", Std.Error = "Std. Error", t.value = "t value", p.value = "p.value")
+
+
+# Print combined table
+print(combined_results)

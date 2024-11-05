@@ -31,7 +31,8 @@ sim_com_long <- compare(
   long_data, # The original dataset
   vars = c("fam_id", "sex",
            "birth_length", "age",
-           "height", "sex_num", "breastfeed_dur_factor"), # The variables for comparison
+           "height", "sex_num", "breastfeed_dur_factor", 
+           "breastfeed_dur_factor_s1", "height_s2"), # The variables for comparison
   print.coef = TRUE, # Print tables of estimates for original and synthetic data
   ncol = 3, # The number of columns in the plot
   breaks = 16, # Gaps between columns 
