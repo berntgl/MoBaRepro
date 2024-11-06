@@ -19,10 +19,15 @@ packages <- c("synthpop", "tidyverse", "cowplot", "car",
               "simstudy", "mice", "StatMeasures")
 ipak(packages)
 
-
+# Load long_data
 load("./data/longdata.RData")
 
+# Create synthetic data
 syn_long <- syn(long_data, seed = 1234)
+
+# Remove rows that are too similar to rows in the original data (i.e., 
+# potentially disclosing data).
+syn_long <- sdc(syn_long, long_data, rm.replicated.uniques = TRUE)
 
 save(syn_long, file= "./data/syndata.RData")
 
@@ -67,4 +72,6 @@ t1a <- compare(
   point.size = 4, # The size of the symbols used in the plot
   lcol = c("#62B6CB", "#1B4965") # Set the colours
 ) 
+
+t1a
 
