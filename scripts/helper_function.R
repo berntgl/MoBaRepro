@@ -10,7 +10,7 @@ extract_summary <- function(model, analysis_label) {
            p.value = ifelse(grepl("breastfeed_dur_factor", term),
                             p.adjust(p.value, method = "bonferroni"),
                             p.value)) %>%
-    select(-`Pr(>|t|)`)
+    dplyr::select(-`Pr(>|t|)`)
   
   
   return(coef_summary)

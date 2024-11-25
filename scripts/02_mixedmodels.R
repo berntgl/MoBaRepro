@@ -1,4 +1,4 @@
-## This script is used to analyse the simulated data
+## This script is used to analyse the simulated data, after it has been prepared in script 01
 
 library(lme4)
 library(tidyverse)
@@ -40,8 +40,9 @@ results_s2 <- extract_summary(mod_s2, "Sensitivity 2")
 
 # Combine results into a single table
 combined_results <- bind_rows(results_main, results_s1, results_s2) %>%
-  select(analysis, term, Estimate = "Estimate", Std.Error = "Std. Error", t.value = "t value", p.value = "p.value")
+  dplyr::select(analysis, term, Estimate = "Estimate", Std.Error = "Std. Error", t.value = "t value", p.value = "p.value")
 
+save(combined_results, file="./data/res.RData")
 
 # Print combined table
 print(combined_results)

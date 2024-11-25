@@ -1,3 +1,5 @@
+# Prepare the simulated data for analysis
+
 library(tidyverse)
 
 load("./data/simdata.RData")
